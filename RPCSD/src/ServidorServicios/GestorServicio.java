@@ -2,15 +2,15 @@ package ServidorServicios;
 
 import GlobalPedidos.PedidoPaquete;
 import GlobalPedidos.RespuestaPaquete;
-import GlobalServicios.ExcepcionNoEjecutada;
-import GlobalServicios.ExcepcionServicio;
-import GlobalServicios.ExcepcionServicioNoEncontrado;
+//import GlobalServicios.ExcepcionNoEjecutada;
+//import GlobalServicios.ExcepcionServicio;
+//import GlobalServicios.ExcepcionServicioNoEncontrado;
 import GlobalServicios.ServicioPaquete;
 import ServidorPedidos.PedidoPaqueteEscucha;
 import ServidorServicios_servicio.RPCServidorServicioImpl;
 
 
-import java.lang.reflect.InvocationTargetException;
+//import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,17 +31,17 @@ public class GestorServicio implements PedidoPaqueteEscucha {
     public void addService(String nombreServicio,
                            Class<? extends ClientesServicios.Servicio> servicioIfaceClass,
                            Class<? extends ServidorServicios.Servicio> servicioImplClass,
-                           Map<String, String> parametros) throws ExcepcionServicioExistente, ExcepcionServicioInvalida {
+                           Map<String, String> parametros)throws Exception  {/*throws ExcepcionServicioExistente, ExcepcionServicioInvalida*/
         synchronized (servicios) {
             if (servicios.get(nombreServicio) != null) {
-                throw new ExcepcionServicioExistente("Servicio [" + nombreServicio + "] ya existe");
+                throw new Exception("Servicio [" + nombreServicio + "] ya existe");
             }
-
+//ExcepcionServicioExistente
             List<String> errors = ValidarServicio.validate(servicioIfaceClass, servicioImplClass);
             if (errors.size() > 0) {
-                throw new ExcepcionServicioInvalida("Servicio [" + nombreServicio + "] tuvo un error", errors);
+                throw new Exception("Servicio [" + nombreServicio + "] tuvo un error");
             }
-
+//ExcepcionServicioInvalida
             Servicio servicio;
             try {
                 servicio = servicioImplClass.newInstance();
@@ -59,17 +59,17 @@ public class GestorServicio implements PedidoPaqueteEscucha {
             } catch (InstantiationException e) {
                 errors = new ArrayList<String>();
                 errors.add("InstantiationException: " + e.getMessage());
-                throw new ExcepcionServicioInvalida("Service [" + nombreServicio + "] has errors", errors);
+                throw new Exception("Service [" + nombreServicio + "] has errors");//ExcepcionServicioInvalida
 
             } catch (IllegalAccessException e) {
                 errors = new ArrayList<String>();
                 errors.add("IllegalAccessException: " + e.getMessage());
-                throw new ExcepcionServicioInvalida("Service [" + nombreServicio + "] has errors", errors);
+                throw new Exception("Service [" + nombreServicio + "] has errors");
 
             } catch (Exception e) {
                 errors = new ArrayList<String>();
                 errors.add("Exception: " + e.getMessage());
-                throw new ExcepcionServicioInvalida("Service [" + nombreServicio + "] has errors", errors);
+                throw new Exception("Service [" + nombreServicio + "] has errors");
             }
         }
     }
@@ -110,12 +110,13 @@ public class GestorServicio implements PedidoPaqueteEscucha {
     }
 
     
-    public Class getInterfazServicio(String nombreServicio) throws ExcepcionServicioNoEncontrado {
+    public Class getInterfazServicio(String nombreServicio) throws Exception//ExcepcionServicioNoEncontrado 
+    {
         synchronized(servicios) {
             Class servicioIface = serviciosIfaces.get(nombreServicio);
 
-            if (servicioIface == null)
-                throw new ExcepcionServicioNoEncontrado("Servicio [" + nombreServicio + "] no encontrado.");
+            //if (servicioIface == null)
+             //   throw new ExcepcionServicioNoEncontrado("Servicio [" + nombreServicio + "] no encontrado.");
 
             return servicioIface;
         }
@@ -135,7 +136,7 @@ public class GestorServicio implements PedidoPaqueteEscucha {
         if (pedidoPaquete == null)
             return null;
 
-        ServicioPaquete servicePacket = (ServicioPaquete)pedidoPaquete.getPayload();
+        ServicioPaquete servicePacket = (ServicioPaquete)pedidoPaquete.getCarga();
 
         String nombreServicio = servicePacket.getnombreServicio();
         Servicio servicio = getServicio(nombreServicio);
@@ -153,7 +154,8 @@ public class GestorServicio implements PedidoPaqueteEscucha {
             Object dato = metodo.invoke(servicio, parametros);
 
             return new RespuestaPaquete(dato, pedidoPaquete.getKey());
-
+        }catch(Exception e){}
+            /*
         } catch (ExcepcionNoEjecutada ex) {
             return new RespuestaPaquete(new ExcepcionServicio(ex), pedidoPaquete.getKey());
 
@@ -163,6 +165,7 @@ public class GestorServicio implements PedidoPaqueteEscucha {
 
         } catch (Exception ex) {
             throw new RuntimeException(ex.getMessage(), ex);
-        }
+        }*/
+        return null;
     }
 }

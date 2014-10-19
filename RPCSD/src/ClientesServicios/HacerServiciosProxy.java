@@ -1,12 +1,14 @@
 package ClientesServicios;
 
 import ClientesPedidos.GestorPedidos;
-import GlobalServicios.ExcepcionServicioNoEncontrado;
+//import GlobalServicios.ExcepcionServicioNoEncontrado;
 import GlobalServicios_servicio.RPCServidorServicio;
 
 import java.lang.reflect.Proxy;
 import java.util.HashMap;
 import java.util.Map;
+//import java.util.logging.Level;
+//import java.util.logging.Logger;
 
 /**
  * @author fabian
@@ -22,8 +24,11 @@ public class HacerServiciosProxy {
         this.invocardor = new InvocadorServicios(gestorPedidos, RPCServidorServicio.NOMBRE);
     }
 
-    public Servicio crearProxy(String nombreServicio) throws ExcepcionServicioNoEncontrado {
+    public Servicio crearProxy(String nombreServicio)// throws ExcepcionServicioNoEncontrado 
+    {
         Servicio servicio = servicios.get(nombreServicio);
+        try{
+        
         if (servicio == null) {
             Class servicioInterface = getServiceInterface(nombreServicio);
 
@@ -32,16 +37,21 @@ public class HacerServiciosProxy {
                                        new InvocadorServicios(gestorPedidos, nombreServicio));
             servicios.put(nombreServicio, servicio);
         }
-
+        }catch(Exception e){}
         return servicio;
     }
 
-    private Class getServiceInterface(String servicioId) throws ExcepcionServicioNoEncontrado {
+    private Class getServiceInterface(String servicioId)// throws ExcepcionServicioNoEncontrado 
+    {
         if (rpcServidorServicio == null) {
             rpcServidorServicio = (RPCServidorServicio)Proxy.newProxyInstance(RPCServidorServicio.class.getClassLoader(),
                                                                         new Class[] {RPCServidorServicio.class},
                                                                         invocardor);
         }
-        return rpcServidorServicio.getInterfazServicio(servicioId);
+        try {
+            return rpcServidorServicio.getInterfazServicio(servicioId);
+        } catch (Exception ex) {
+        }
+        return null;
     }
 }

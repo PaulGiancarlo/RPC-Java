@@ -3,7 +3,7 @@ package ClientesServicios;
 import ClientesPedidos.GestorPedidos;
 import GlobalPedidos.PedidoPaquete;
 import GlobalPedidos.RespuestaPaquete;
-import GlobalServicios.ExcepcionServicio;
+//import GlobalServicios.ExcepcionServicio;
 import GlobalServicios.ServicioPaquete;
 
 import java.lang.reflect.InvocationHandler;
@@ -28,12 +28,12 @@ public class InvocadorServicios implements InvocationHandler {
         PedidoPaquete req = new PedidoPaquete(new ServicioPaquete(nombreServicio, m.getName(), args), getUnicoKey());
 
         RespuestaPaquete resultado = gestorPedidos.enviar(req);
-        if (resultado.getData() instanceof ExcepcionServicio) {
+        /*if (resultado.getData() instanceof ExcepcionServicio) {
             ExcepcionServicio e = (ExcepcionServicio)resultado.getData();
             throw e.getCause();
         }
-
-        return resultado.getData();
+*/
+        return resultado.getDato();
     }
 
     private String getUnicoKey() {

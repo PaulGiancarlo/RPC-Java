@@ -1,7 +1,7 @@
 package GlobalServicios_servicio;
 
 import ClientesServicios.Servicio;
-import GlobalServicios.ExcepcionServicioNoEncontrado;
+//import GlobalServicios.ExcepcionServicioNoEncontrado;
 
 /**
  * @author fabian
@@ -10,5 +10,5 @@ import GlobalServicios.ExcepcionServicioNoEncontrado;
 public interface RPCServidorServicio extends Servicio {
     public final String NOMBRE = "__RPCServidorServicio";
 
-    Class getInterfazServicio(String servicioId) throws ExcepcionServicioNoEncontrado;
+    Class getInterfazServicio(String servicioId) throws Exception;//ExcepcionServicioNoEncontrado;
 }

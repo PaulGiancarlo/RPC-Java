@@ -5,9 +5,9 @@ import ClientesServicios.Calculadora;
 import ClientesServicios.Servicio;
 import ClientesServicios.HacerServiciosProxy;
 import GlobalConexiones.Conexion;
-import GlobalServicios.ExcepcionServicioNoEncontrado;
+//import GlobalServicios.ExcepcionServicioNoEncontrado;
 import GlobalSeciones.Sesion;
-
+//subio bien
 import java.io.IOException;
 
 public class RPCCliente {
@@ -33,7 +33,7 @@ public class RPCCliente {
 
     
     public void desconectardeServidor() {
-        gestorPedidos.getSession().kill();
+        gestorPedidos.getSession().apagar();
         gestorPedidos = null;
     }
 
@@ -50,11 +50,15 @@ public class RPCCliente {
       
       //@throws ExcepcionServicioNoEncontrado si idService is not installed in the server
     
-    public Servicio getServicio(String nombreServicio) throws ExcepcionServicioNoEncontrado {
+    public Servicio getServicio(String nombreServicio)// throws ExcepcionServicioNoEncontrado 
+    {
+        try{
         return servicios_proxy.crearProxy(nombreServicio);
+        }catch(Exception e){}
+        return null;
     }
     
-    public static void main(String []args) throws IOException, ExcepcionServicioNoEncontrado
+    public static void main(String []args) throws IOException//, ExcepcionServicioNoEncontrado
     {
     	RPCCliente cliente = new RPCCliente("localhost", 12345);
     	Calculadora calculadora = (Calculadora)cliente.getServicio("servicio_Calculadora");
@@ -63,3 +67,5 @@ public class RPCCliente {
     }
     
 }
+
+

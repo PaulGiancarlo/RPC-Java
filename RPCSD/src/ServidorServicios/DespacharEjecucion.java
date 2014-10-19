@@ -1,8 +1,10 @@
 package ServidorServicios;
 
-import GlobalServicios.ExcepcionNoEjecutada;
+//import GlobalServicios.ExcepcionNoEjecutada;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author fabian
@@ -26,7 +28,8 @@ public class DespacharEjecucion implements InterceptarEjecucion {
     }
 
     // implements InterceptarEjecucion
-    public void enPreEjecucion(String nombreServicio, String nombreMetodo, Object[] parametros) throws ExcepcionNoEjecutada {
+    public void enPreEjecucion(String nombreServicio, String nombreMetodo, Object[] parametros) throws RuntimeException //ExcepcionNoEjecutada 
+    {
         ArrayList copiaLista;
         synchronized(interceptores) {
             copiaLista  = (ArrayList)interceptores.clone();
@@ -34,7 +37,11 @@ public class DespacharEjecucion implements InterceptarEjecucion {
 
         for (int i = 0, n = copiaLista.size(); i < n; i++) {
             InterceptarEjecucion interceptor = (InterceptarEjecucion)copiaLista.get(i);
-            interceptor.enPreEjecucion(nombreServicio, nombreMetodo, parametros); 
+            try { 
+                interceptor.enPreEjecucion(nombreServicio, nombreMetodo, parametros);
+            } catch (Exception ex) {
+                //Logger.getLogger(DespacharEjecucion.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 }

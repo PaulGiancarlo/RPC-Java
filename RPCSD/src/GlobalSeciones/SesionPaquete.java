@@ -3,17 +3,17 @@ package GlobalSeciones;
 import java.io.Serializable;
 
 /**
- * This class represents the data unit of the Session layer.
- * @author enriquer
+ * 
+ * @author fabian
  */
 public class SesionPaquete implements Serializable {
-    private Serializable payload;
+    private Serializable carga;
 
-    public SesionPaquete(Serializable payload) {
-        this.payload = payload;
+    public SesionPaquete(Serializable carga) {
+        this.carga = carga;
     }
 
     public Serializable getPayload() {
-        return payload;
+        return carga;
     }
 }

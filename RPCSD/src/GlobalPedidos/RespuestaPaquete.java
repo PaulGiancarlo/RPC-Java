@@ -3,15 +3,15 @@ package GlobalPedidos;
 import java.io.Serializable;
 
 /**
- * This class represents the data response unit of the request layer.
- * @author enriquer
+ * 
+ * @author fabian
  */
 public class RespuestaPaquete implements Serializable {
     private String key;
-    private Object data;
+    private Object dato;
 
-    public RespuestaPaquete(Object data, String key) {
-        this.data = data;
+    public RespuestaPaquete(Object dato, String key) {
+        this.dato = dato;
         this.key = key;
     }
 
@@ -19,7 +19,7 @@ public class RespuestaPaquete implements Serializable {
         return key;
     }
 
-    public Object getData() {
-        return data;
+    public Object getDato() {
+        return dato;
     }
 }

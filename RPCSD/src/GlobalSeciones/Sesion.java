@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author enriquer
+ * @author fabian
  */
 public class Sesion implements ConexionPaqueteEscucha {
     private Conexion conexion = null;
@@ -38,11 +38,11 @@ public class Sesion implements ConexionPaqueteEscucha {
             throw ex;
 
         } finally {
-            kill();
+            apagar();
         }
     }
 
-    public void kill() {
+    public void apagar() {
         synchronized (conexion_bloqueo) {
             if (contexto != null) {
                 contexto.clear();
@@ -97,6 +97,6 @@ public class Sesion implements ConexionPaqueteEscucha {
         }
     }
     public void conexionPerdida() {
-        kill();
+        apagar();
     }
 }
