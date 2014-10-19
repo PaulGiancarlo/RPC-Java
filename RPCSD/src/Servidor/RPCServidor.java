@@ -1,11 +1,11 @@
 package Servidor;
 
-import GlobalServicios_servicio.RPCServidorServicio;
-import ServidorConexion.ConexionServidor;
-import ServidorPedidos.GestorPedidos;
-import ServidorServicios.GestorServicio;
-import ServidorServicios_servicio.RPCServidorServicioImpl;
-import ServidorSesiones.GestorSesiones;
+import comun.GlobalServicios_servicio.RPCServidorServicio;
+import Servidor.ServidorConexion.ConexionServidor;
+import Servidor.ServidorPedidos.GestorPedidos;
+import Servidor.ServidorServicios.GestorServicio;
+import comun.GlobalServicios_servicio.GlobalServicios_servicio.RPCServidorServicioImpl;
+import Servidor.ServidorSesiones.GestorSesiones;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -55,8 +55,8 @@ public class RPCServidor {
     {
     	RPCServidor rpcServer = new RPCServidor(12345);
     	 
-    	       Class iface = ClientesServicios.Calculadora.class;
-    	       Class impl = ServidorServicios.CalculadoraImpl.class;
+    	       Class iface = Clientes.ClientesServicios.Calculadora.class;
+    	       Class impl = Servidor.ServidorServicios.CalculadoraImpl.class;
     	       Map parametros = new HashMap(); 
                try{
     	       rpcServer.getGestorServicio().addService("servicio_Calculadora", iface, impl, parametros);

@@ -1,12 +1,12 @@
 package Clientes;
 
-import ClientesPedidos.GestorPedidos;
-import ClientesServicios.Calculadora;
-import ClientesServicios.Servicio;
-import ClientesServicios.HacerServiciosProxy;
-import GlobalConexiones.Conexion;
+import Clientes.ClientesPedidos.GestorPedidos;
+import Clientes.ClientesServicios.Calculadora;
+import Clientes.ClientesServicios.Servicio;
+import Clientes.ClientesServicios.HacerServiciosProxy;
+import comun.GlobalServicios_servicio.GlobalConexiones.Conexion;
 //import GlobalServicios.ExcepcionServicioNoEncontrado;
-import GlobalSeciones.Sesion;
+import comun.GlobalServicios_servicio.GlobalSeciones.Sesion;
 //subio bien
 import java.io.IOException;
 
